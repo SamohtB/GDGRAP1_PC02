@@ -29,12 +29,10 @@ namespace Controller
 	{
 	public:
 		Game();
-		void CreateObject(string Mesh_Path, string Vert_Path, string Frag_Path, string Tex_Path);
 		void Run();
 		
 
 	private:
-		void CreateGameObject(string Mesh_Path, string Vert_Path, string Frag_Path, string Tex_path);
 		void CreateLights();
 		void Initialize();
 		void ProcessInput();
@@ -48,8 +46,11 @@ namespace Controller
 		Orthographic* orthographicCamera;
 		Directional* directionalLight;
 		Point* pointLight;
+		GameObject* centerObject;
 
-		vector<GameObject*> gameObjectList;
+		bool isPerspective;
+		bool isSpacePressed;
+		bool isCenter;
 	};
 }
 

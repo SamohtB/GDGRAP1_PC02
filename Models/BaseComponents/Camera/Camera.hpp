@@ -11,15 +11,18 @@ namespace base_component
 	{
 	public:
 		Camera();
-		void MoveCameraWithCenter(glm::vec3 movement);
-		void SetCameraWithCenter(glm::vec3 new_pos);
+
+		void MoveCamera(glm::vec3 movement);
+		void SetCameraPos(glm::vec3 new_pos);
+		void SetCenter(glm::vec3 orientation);
+
 		glm::mat4 GetViewMatrix() { return this->view_matrix; }
 
 	private:
-		void SetViewMatrix() { this->view_matrix = glm::lookAt(GetPosition(), this->orientation, WORLD_UP); }
+		void SetViewMatrix();
 
 	private:
-		glm::vec3 orientation;
+		glm::vec3 center;
 		glm::vec3 WORLD_UP;
 		glm::mat4 view_matrix;
 	};

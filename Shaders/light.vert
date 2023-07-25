@@ -7,12 +7,8 @@ uniform mat4 transform;
 uniform mat4 projection;
 uniform mat4 view;
 
-out vec2 texCoord;
-
 void main()
 {
 	//projection -> camera -> transform -> local point
 	gl_Position = projection * view * transform * vec4(aPos, 1.0);
-
-	texCoord = aTex;
 }

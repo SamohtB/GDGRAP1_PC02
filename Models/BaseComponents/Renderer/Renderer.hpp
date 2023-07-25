@@ -30,7 +30,8 @@ namespace base_component
 			void Draw(glm::mat4 transform_matrix, glm::mat4 view_matrix, glm::mat4 projection_matrix,
 				glm::vec3 light_pos, glm::vec3 light_color, float ambient_str, glm::vec3 ambient_color,
 				glm::vec3 camera_pos, float spec_str, float spec_phong);
-			void Draw(glm::mat4 transform_matrix, glm::mat4 view_matrix, glm::mat4 projection_matrix);
+			void Draw(glm::mat4 transform_matrix, glm::mat4 view_matrix, glm::mat4 projection_matrix, 
+				glm::vec3 light_color);
 			void LoadShaders(string Vert_Path, string Frag_Path);
 			void LoadMesh(string Mesh_Path);
 			void LoadTexture(string Tex_Path);

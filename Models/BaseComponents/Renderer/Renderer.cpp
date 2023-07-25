@@ -101,7 +101,7 @@ void Renderer::LoadVertices()
     glBindVertexArray(this->VAO);
 
     glBindBuffer(GL_ARRAY_BUFFER, this->VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(GL_FLOAT) * this->fullVertexData.size(), this->fullVertexData.data(), GL_DYNAMIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(GL_FLOAT) * this->fullVertexData.size(), this->fullVertexData.data(), GL_STATIC_DRAW);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GL_FLOAT), (void*)0);
 
     GLuint normalsPtr = 3 * sizeof(GLfloat);
@@ -181,7 +181,8 @@ void Renderer::Draw(glm::mat4 transform_matrix, glm::mat4 view_matrix, glm::mat4
     glDrawArrays(GL_TRIANGLES, 0, this->fullVertexData.size() / 8);
 }
 
-void Renderer::Draw(glm::mat4 transform_matrix, glm::mat4 view_matrix, glm::mat4 projection_matrix)
+void Renderer::Draw(glm::mat4 transform_matrix, glm::mat4 view_matrix, glm::mat4 projection_matrix,
+    glm::vec3 light_color)
 {
     glUseProgram(this->shaderProgram);
 
@@ -194,9 +195,8 @@ void Renderer::Draw(glm::mat4 transform_matrix, glm::mat4 view_matrix, glm::mat4
     unsigned int projectionLoc = glGetUniformLocation(this->shaderProgram, "projection");
     glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(projection_matrix));
 
-    GLuint tex0Address = glGetUniformLocation(this->shaderProgram, "tex0");
-    glBindTexture(GL_TEXTURE_2D, this->texture);
-    glUniform1i(tex0Address, 0);
+    unsigned int lightColorLoc = glGetUniformLocation(this->shaderProgram, "lightColor");
+    glUniform3fv(lightColorLoc, 1, glm::value_ptr(light_color));
 
     glBindVertexArray(this->VAO);
 

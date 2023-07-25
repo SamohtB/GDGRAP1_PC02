@@ -13,6 +13,7 @@ uniform vec3 cameraPos;
 uniform float specStr;
 uniform float specPhong;
 
+
 in vec2 texCoord;
 in vec3 normCoord;
 in vec3 fragPos;
@@ -35,5 +36,8 @@ void main()
 	float spec = pow(max(dot(reflectDir, viewDir), 0.1), specPhong);
 	vec3 specColor = spec * specStr * lightColor;
 
-	FragColor = vec4(specColor + diffuse + ambientCol, 1.0) * texture(tex0, texCoord);
+	float distance = distance(lightPos, fragPos);
+	float intensity = 100 * (1 / (distance * distance));
+
+	FragColor = vec4(specColor + diffuse + ambientCol, 1.0) * texture(tex0, texCoord) * intensity;
 }

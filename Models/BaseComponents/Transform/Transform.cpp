@@ -4,7 +4,7 @@ using namespace base_component;
 
 Transform::Transform()
 {
-	position = glm::vec3(0.0f);
+	position = glm::vec3(0.0f, 0.0f, 0.0f);
 	pitch = 0.f;
 	yaw = 0.f;
 	roll = 0.f;
@@ -15,10 +15,10 @@ glm::mat4 Transform::GetModelMatrix()
 {
 	glm::mat4 model_matrix = glm::mat4(1.0f);
 	model_matrix = glm::translate(model_matrix, position);
-	model_matrix = glm::scale(model_matrix, scale);
 	model_matrix = glm::rotate(model_matrix, glm::radians(pitch), glm::vec3(1.f, 0.f, 0.f));
 	model_matrix = glm::rotate(model_matrix, glm::radians(yaw), glm::vec3(0.f, 1.f, 0.f));
 	model_matrix = glm::rotate(model_matrix, glm::radians(roll), glm::vec3(0.f, 0.f, 1.f));
+	model_matrix = glm::scale(model_matrix, scale);
 
 	return model_matrix;
 }

@@ -13,7 +13,7 @@ namespace camera
 	{
 	public:
 		Perspective();
-		glm::mat4 GetProjectionMatrix() { return projection_matrix; }
+		glm::mat4 GetProjectionMatrix() { return this->projection_matrix; }
 		void SetProjectionMatrix(float FOV);
 
 	private:

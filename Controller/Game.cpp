@@ -6,34 +6,39 @@ Game::Game()
 {
     Initialize();
 
+    this->isSpacePressed = false;
+    this->isPerspective = true;
+    this->isCenter = true;
+
     this->perpectiveCamera = new Perspective();
     this->orthographicCamera = new Orthographic();
+    orthographicCamera->SetCameraPos(glm::vec3(0.0f, 20.0f, 10.0f));
+    orthographicCamera->SetCenter(glm::vec3(0.0f, 0.0f, 0.0f));
 
     CreateLights();
-    CreateObject("3D/sword.obj", "Shaders/object.vert", "Shaders/object.frag", "3D/sword.png");
-}
 
-void Game::CreateObject(string Mesh_Path, string Vert_Path, string Frag_Path, string Tex_Path)
-{
-    GameObject* object = new GameObject(Mesh_Path, Vert_Path, Frag_Path, Tex_Path);
-    this->gameObjectList.push_back(object);
-    object->SetPosition(0.f, 0.f, 0.f);
+    this->centerObject = new GameObject("3D/sword2.obj", "Shaders/object.vert", "Shaders/object.frag", "3D/sword.png");
+    this->centerObject->SetPosition(0.f, 0.f, 0.f);
+    this->centerObject->SetScale(0.5f, 0.5f, 0.5f);
 }
 
 void Game::CreateLights()
 {
     this->pointLight = new Point(
-        "3D/potion.obj",                //Mesh 
+        "3D/target.obj",                //Mesh 
         "Shaders/light.vert",           //Vertex Shader
         "Shaders/light.frag",           //Frag Shader
         "3D/potion.png",                //Texture
-        glm::vec3(-10.f, 3.f, 0.f),     //Initial Pos
-        glm::vec3(1.f, 1.f, 1.f),       //Light Color
-        glm::vec3(1.f, 1.f, 1.f),       //Ambient Color
+        glm::vec3(0.f, 0.f, 10.f),     //Initial Pos
+        glm::vec3(1.f, 0.4f, 0.1f),       //Light Color
+        glm::vec3(1.f, 0.4f, 0.1f),       //Ambient Color
         0.2f,                           //Ambient Str
         0.5f,                           //Spec Str
         16                              //Spec Phong
     );
+
+    this->pointLight->SetScale(5.0f);
+    this->pointLight->Rotate(RotationAxis::YAW, 90.f);
 
     this->directionalLight = new Directional(
         "3D/potion.obj",                //Mesh 
@@ -66,6 +71,8 @@ void Game::Initialize()
 
     glfwMakeContextCurrent(gameWindow);
     gladLoadGL();
+
+    glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 }
 
 void Game::Run()
@@ -101,40 +108,77 @@ void Game::Run()
 
 void Game::ProcessInput()
 {
+    int space_state = glfwGetKey(this->gameWindow, GLFW_KEY_SPACE);
+    int one_state = glfwGetKey(this->gameWindow, GLFW_KEY_1);
+    int two_state = glfwGetKey(this->gameWindow, GLFW_KEY_2);
 
+    if (one_state == GLFW_PRESS)
+    {
+        this->isPerspective = true;
+    }
+    
+    if (two_state == GLFW_PRESS)
+    {
+        this->isPerspective = false;
+    }
+
+    if (space_state == GLFW_PRESS && !isSpacePressed)
+    {
+        isSpacePressed = true;
+        this->isCenter = !this->isCenter;
+    }
+    else if (space_state == GLFW_RELEASE)
+    {
+        isSpacePressed = false;
+    }
+
+
+    if (this->isCenter)
+    {
+        this->centerObject->ProcessInput(this->gameWindow);
+
+    }
+    else
+    {
+        this->pointLight->ProcessInput(this->gameWindow);
+    }
 }
 
 void Game::Update(float tDeltaTime)
 {
-
+    this->centerObject->GameObject::Update(tDeltaTime);
+    this->pointLight->Update(tDeltaTime);
 }
 
 void Game::Render()
 {
-    glm::mat4 projection_matrix = perpectiveCamera->GetProjectionMatrix();
-    glm::mat4 view_matrix = this->perpectiveCamera->GetViewMatrix();
+    glm::mat4 projection_matrix = glm::mat4();
+    glm::mat4 view_matrix = glm::mat4();
+    glm::vec3 camera_pos = glm::vec3(0.0f, 0.0f, 0.0f);
+
+    if (this->isPerspective)
+    {
+        projection_matrix = perpectiveCamera->GetProjectionMatrix();
+        view_matrix = this->perpectiveCamera->GetViewMatrix();
+        camera_pos = this->perpectiveCamera->GetPosition();
+    }
+    else if (!this->isPerspective)
+    {
+        projection_matrix = this->orthographicCamera->GetProjectionMatrix();
+        view_matrix = this->orthographicCamera->GetViewMatrix();
+        camera_pos = this->orthographicCamera->GetPosition();
+    }
     
     glm::vec3 light_pos = this->pointLight->GetPosition();
     glm::vec3 light_color = this->pointLight->GetLightColor();
     glm::vec3 ambient_color = this->pointLight->GetAmbientColor();
 
-    glm::vec3 camera_pos = this->perpectiveCamera->GetPosition();
-
     float ambient_str = this->pointLight->GetAmbientStr();
     float spec_str = this->pointLight->GetSpecStr();
     float spec_phong = this->pointLight->GetSpecPhong();
 
-    for (GameObject* object : gameObjectList)
-    {
-        object->Draw(view_matrix, projection_matrix, light_pos, light_color,
-            ambient_str, ambient_color, spec_str, spec_phong, camera_pos);
-    }
+    this->centerObject->Draw(view_matrix, projection_matrix, light_pos, light_color,
+        ambient_str, ambient_color, spec_str, spec_phong, camera_pos);
 
-    this->pointLight->Draw(view_matrix, projection_matrix);
-}
-
-void Game::CreateGameObject(string Mesh_Path, string Vert_Path, string Frag_Path, string Tex_path)
-{
-    GameObject* object = new GameObject(Mesh_Path, Vert_Path, Frag_Path, Tex_path);
-    gameObjectList.push_back(object);
+    this->pointLight->Draw(view_matrix, projection_matrix, light_color);
 }

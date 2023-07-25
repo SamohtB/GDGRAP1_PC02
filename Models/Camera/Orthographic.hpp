@@ -12,7 +12,7 @@ namespace camera
 	{
 	public:
 		Orthographic();
-		glm::mat4 GetProjectionMatrix() { return projection_matrix; }
+		glm::mat4 GetProjectionMatrix() { return this->projection_matrix; }
 		void SetProjectionMatrix(float left, float right, float bottom, float top, float near, float far);
 
 	private:

@@ -2,10 +2,10 @@
 
 using namespace camera;
 
-Perspective::Perspective()
+Perspective::Perspective() : Camera()
 {
-	this->FOV = 60.f;
 	this->aspectRatio = SCREEN_WIDTH / SCREEN_HEIGHT;
+	this->SetProjectionMatrix(60.f);
 }
 
 void Perspective::SetProjectionMatrix(float FOV)
