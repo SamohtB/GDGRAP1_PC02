@@ -151,32 +151,42 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Models\Lights\Directional.cpp" />
-    <ClCompile Include="Models\BaseComponents\Camera\Camera.cpp" />
+    <ClCompile Include="Controller\Singleton\GameObjectManager.cpp" />
+    <ClCompile Include="Models\Component\Input\RotationInput.cpp" />
+    <ClCompile Include="Models\Entity\CenterObject.cpp" />
+    <ClCompile Include="Models\Component\Component.cpp" />
+    <ClCompile Include="Models\Component\Light\Directional.cpp" />
+    <ClCompile Include="Models\Component\Camera\Camera.cpp" />
     <ClCompile Include="Controller\Game.cpp" />
     <ClCompile Include="glad.c" />
-    <ClCompile Include="Models\Light.cpp" />
+    <ClCompile Include="Models\Component\Light\Light.cpp" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Models\BaseComponents\Renderer\Renderer.cpp" />
-    <ClCompile Include="Models\BaseComponents\Transform\Transform.cpp" />
+    <ClCompile Include="Models\Component\Renderer\Renderer.cpp" />
+    <ClCompile Include="Models\Component\Transform\Transform.cpp" />
+    <ClCompile Include="Models\Entity\PointLight.cpp" />
     <ClCompile Include="Models\GameObject.cpp" />
-    <ClCompile Include="Models\Camera\Orthographic.cpp" />
-    <ClCompile Include="Models\Camera\Perspective.cpp" />
-    <ClCompile Include="Models\Lights\Point.cpp" />
+    <ClCompile Include="Models\Component\Camera\Orthographic.cpp" />
+    <ClCompile Include="Models\Component\Camera\Perspective.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Models\Lights\Directional.hpp" />
-    <ClInclude Include="Models\BaseComponents\Camera\Camera.hpp" />
+    <ClInclude Include="Controller\Singleton\GameObjectManager.hpp" />
+    <ClInclude Include="Models\Component\Component.hpp" />
+    <ClInclude Include="Models\Component\Input\RotationInput.hpp" />
+    <ClInclude Include="Models\Entity\CenterObject.hpp" />
+    <ClInclude Include="Models\Entity\PointLight.hpp" />
+    <ClInclude Include="Models\Enum\EnumComponentType.hpp" />
+    <ClInclude Include="Models\Enum\EnumObjectType.hpp" />
+    <ClInclude Include="Models\Component\Light\Directional.hpp" />
+    <ClInclude Include="Models\Component\Camera\Camera.hpp" />
     <ClInclude Include="Config\Settings.hpp" />
     <ClInclude Include="Controller\Game.hpp" />
-    <ClInclude Include="Models\Light.hpp" />
-    <ClInclude Include="Models\BaseComponents\Transform\EnumRotationAxis.hpp" />
-    <ClInclude Include="Models\BaseComponents\Renderer\Renderer.hpp" />
-    <ClInclude Include="Models\BaseComponents\Transform\Transform.hpp" />
+    <ClInclude Include="Models\Component\Light\Light.hpp" />
+    <ClInclude Include="Models\Enum\EnumRotationAxis.hpp" />
+    <ClInclude Include="Models\Component\Renderer\Renderer.hpp" />
+    <ClInclude Include="Models\Component\Transform\Transform.hpp" />
     <ClInclude Include="Models\GameObject.hpp" />
-    <ClInclude Include="Models\Camera\Orthographic.hpp" />
-    <ClInclude Include="Models\Camera\Perspective.hpp" />
-    <ClInclude Include="Models\Lights\Point.hpp" />
+    <ClInclude Include="Models\Component\Camera\Orthographic.hpp" />
+    <ClInclude Include="Models\Component\Camera\Perspective.hpp" />
     <ClInclude Include="stb_image.h" />
     <ClInclude Include="tiny_obj_loader.h" />
   </ItemGroup>

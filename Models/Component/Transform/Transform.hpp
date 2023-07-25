@@ -5,15 +5,15 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-#include "EnumRotationAxis.hpp"
+#include "../Component.hpp"
+#include "../../Enum/EnumRotationAxis.hpp"
 
-namespace base_component
+namespace components
 {
-	class Transform
+	class Transform : public Component
 	{
 		public:
-			
-			Transform();
+			Transform(std::string name);
 
 			glm::mat4 GetModelMatrix();
 
@@ -34,10 +34,12 @@ namespace base_component
 
 		private:
 			glm::vec3 position;
+			glm::vec3 scale;
+
 			float pitch;
 			float yaw;
 			float roll;
-			glm::vec3 scale;
+			
 	};
 }
 

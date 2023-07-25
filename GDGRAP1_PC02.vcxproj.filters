@@ -21,10 +21,10 @@
     <ClCompile Include="glad.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Models\BaseComponents\Renderer\Renderer.cpp">
+    <ClCompile Include="Models\Component\Renderer\Renderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Models\BaseComponents\Transform\Transform.cpp">
+    <ClCompile Include="Models\Component\Transform\Transform.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Controller\Game.cpp">
@@ -33,22 +33,34 @@
     <ClCompile Include="Models\GameObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Models\Light.cpp">
+    <ClCompile Include="Models\Component\Light\Light.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Models\BaseComponents\Camera\Camera.cpp">
+    <ClCompile Include="Models\Component\Camera\Camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Models\Camera\Orthographic.cpp">
+    <ClCompile Include="Models\Component\Camera\Orthographic.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Models\Camera\Perspective.cpp">
+    <ClCompile Include="Models\Component\Camera\Perspective.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Models\Lights\Directional.cpp">
+    <ClCompile Include="Models\Component\Light\Directional.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Models\Lights\Point.cpp">
+    <ClCompile Include="Controller\Singleton\GameObjectManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Models\Component\Component.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Models\Entity\CenterObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Models\Entity\PointLight.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Models\Component\Input\RotationInput.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -59,10 +71,10 @@
     <ClInclude Include="tiny_obj_loader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Models\BaseComponents\Renderer\Renderer.hpp">
+    <ClInclude Include="Models\Component\Renderer\Renderer.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Models\BaseComponents\Transform\Transform.hpp">
+    <ClInclude Include="Models\Component\Transform\Transform.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Config\Settings.hpp">
@@ -74,25 +86,43 @@
     <ClInclude Include="Models\GameObject.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Models\BaseComponents\Transform\EnumRotationAxis.hpp">
+    <ClInclude Include="Models\Enum\EnumRotationAxis.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Models\Light.hpp">
+    <ClInclude Include="Models\Component\Light\Light.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Models\BaseComponents\Camera\Camera.hpp">
+    <ClInclude Include="Models\Component\Camera\Camera.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Models\Camera\Orthographic.hpp">
+    <ClInclude Include="Models\Component\Camera\Orthographic.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Models\Camera\Perspective.hpp">
+    <ClInclude Include="Models\Component\Camera\Perspective.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Models\Lights\Directional.hpp">
+    <ClInclude Include="Models\Component\Light\Directional.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Models\Lights\Point.hpp">
+    <ClInclude Include="Controller\Singleton\GameObjectManager.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Models\Component\Component.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Models\Enum\EnumComponentType.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Models\Enum\EnumObjectType.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Models\Entity\CenterObject.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Models\Entity\PointLight.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Models\Component\Input\RotationInput.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

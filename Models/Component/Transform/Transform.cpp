@@ -1,8 +1,8 @@
 #include "Transform.hpp"
 
-using namespace base_component;
+using namespace components;
 
-Transform::Transform()
+Transform::Transform(std::string name) : Component(name, ComponentType::TRANSFORM)
 {
 	position = glm::vec3(0.0f, 0.0f, 0.0f);
 	pitch = 0.f;
