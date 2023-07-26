@@ -42,8 +42,6 @@ void Perspective::Update(float tDeltaTime)
 	if (this->BUTTON_1 == GLFW_PRESS)
 	{
 		UpdateCameraPos(tDeltaTime);
-		std::cout << "PHI: " << phi;
-		std::cout << " THETA: " << theta << std::endl;
 	}
 }
 

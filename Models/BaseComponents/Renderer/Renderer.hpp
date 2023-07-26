@@ -32,6 +32,7 @@ namespace base_component
 				glm::vec3 point_ambient_color, float point_spec_str, float point_spec_phong, float point_intensity, glm::vec3 dir_direction,
 				glm::vec3 dir_light_color, float dir_ambient_str, glm::vec3 dir_ambient_color,
 				float dir_spec_str, float dir_spec_phong, float dir_intensity, glm::vec3 camera_pos);
+			//Separate Draw Calls for Unlit and Lit Objects
 			void Draw(glm::mat4 transform_matrix, glm::mat4 view_matrix, glm::mat4 projection_matrix, 
 				glm::vec3 light_color);
 			void LoadShaders(string Vert_Path, string Frag_Path);

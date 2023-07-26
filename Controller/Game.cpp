@@ -12,8 +12,8 @@ Game::Game()
 
     this->perpectiveCamera = new Perspective();
     this->orthographicCamera = new Orthographic();
-    orthographicCamera->SetCameraPos(glm::vec3(0.0f, 20.0f, 10.0f));
-    orthographicCamera->SetCenter(glm::vec3(0.0f, 0.0f, 0.0f));
+    orthographicCamera->SetCameraPos(glm::vec3(0.0f, 20.0f, 10.0f)); //Set Above Center
+    orthographicCamera->SetCenter(glm::vec3(0.0f, 0.0f, 0.0f)); //Point At Center
 
     CreateLights();
 
@@ -24,6 +24,7 @@ Game::Game()
 
 void Game::CreateLights()
 {
+    /* POINT LIGHT COLOR IS HARD CODED */
     this->pointLight = new Point(
         "3D/target.obj",                //Mesh 
         "Shaders/light.vert",           //Vertex Shader
@@ -45,7 +46,7 @@ void Game::CreateLights()
         "Shaders/light.vert",           //Vertex Shader
         "Shaders/light.frag",           //Frag Shader
         "3D/potion.png",                //Texture
-        glm::vec3(0.f, 0.f, 0.f),     //Initial Pos
+        glm::vec3(0.f, 0.f, 0.f),      //Initial Pos
         glm::vec3(1.f, 0.0f, 0.0f),     //Light Color
         glm::vec3(1.f, 0.0f, 0.0f),     //Ambient Color
         0.2f,                           //Ambient Str
@@ -114,16 +115,17 @@ void Game::ProcessInput()
     int one_state = glfwGetKey(this->gameWindow, GLFW_KEY_1);
     int two_state = glfwGetKey(this->gameWindow, GLFW_KEY_2);
 
+    //Camera Switch
     if (one_state == GLFW_PRESS)
     {
         this->isPerspective = true;
     }
-    
+    //Camera Switch
     if (two_state == GLFW_PRESS)
     {
         this->isPerspective = false;
     }
-
+    //Single Press Space Script
     if (space_state == GLFW_PRESS && !isSpacePressed)
     {
         isSpacePressed = true;
@@ -134,28 +136,31 @@ void Game::ProcessInput()
         isSpacePressed = false;
     }
 
-
+    //if center == control middle object, else control light
     if (this->isCenter)
     {
         this->centerObject->ProcessInput(this->gameWindow);
-
     }
     else
     {
         this->pointLight->ProcessInput(this->gameWindow);
     }
 
+    //Catch input from oerspective camera if perspective camera is active
     if (this->isPerspective)
     {
         this->perpectiveCamera->ProcessInput(this->gameWindow);
     }
 
+    //Catch Light intensity input always
     this->directionalLight->ProcessInput(this->gameWindow);
+    //Process Input2 only for intensity input, ProcessInput is for orbit movement
     this->pointLight->ProcessInput2(this->gameWindow);
 }
 
 void Game::Update(float tDeltaTime)
 {
+    //Updates Protected by flags, so always update
     this->centerObject->GameObject::Update(tDeltaTime);
     this->pointLight->Update(tDeltaTime);
     this->directionalLight->Update(tDeltaTime);
@@ -168,6 +173,8 @@ void Game::Render()
     glm::mat4 view_matrix = glm::mat4();
     glm::vec3 camera_pos = glm::vec3(0.0f, 0.0f, 0.0f);
 
+    //if perpective camera is active, get data from the perspective camera, 
+    //otherwise get data from the ortho camera
     if (this->isPerspective)
     {
         projection_matrix = perpectiveCamera->GetProjectionMatrix();
@@ -181,6 +188,7 @@ void Game::Render()
         camera_pos = this->orthographicCamera->GetPosition();
     }
     
+    //Get Data from point light
     glm::vec3 point_light_pos = this->pointLight->GetPosition();
     glm::vec3 point_light_color = this->pointLight->GetLightColor(this->isCenter);
     glm::vec3 point_ambient_color = this->pointLight->GetAmbientColor(this->isCenter);
@@ -190,6 +198,7 @@ void Game::Render()
     float point_spec_phong = this->pointLight->GetSpecPhong();
     float point_intensity = this->pointLight->GetIntensity();
 
+    //Get Data from directional light
     glm::vec3 dir_direction = this->directionalLight->GetPosition();
     glm::vec3 dir_light_color = this->directionalLight->GetLightColor(this->isCenter);
     glm::vec3 dir_ambient_color = this->directionalLight->GetAmbientColor(this->isCenter);
@@ -199,6 +208,7 @@ void Game::Render()
     float dir_spec_phong = this->directionalLight->GetSpecPhong();
     float dir_intensity = this->directionalLight->GetIntensity();
 
+    //Draw only center and point light
     this->centerObject->Draw(view_matrix, projection_matrix, point_light_pos, point_light_color,
         point_ambient_str, point_ambient_color, point_spec_str, point_spec_phong, point_intensity,
         dir_direction, dir_light_color, dir_ambient_str, dir_ambient_color, dir_spec_str, 
