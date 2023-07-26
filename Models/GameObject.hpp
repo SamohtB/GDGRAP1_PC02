@@ -18,9 +18,11 @@ namespace models {
         public:
             virtual void ProcessInput(GLFWwindow* window);
             virtual void Update(float tDeltaTime);
-            virtual void Draw(glm::mat4 view_matrix, glm::mat4 projection_matrix,
-                glm::vec3 light_pos, glm::vec3 light_color, float ambient_str, glm::vec3 ambient_color,
-                float spec_str, float spec_phong, glm::vec3 camera_pos);
+            virtual void Draw(glm::mat4 view_matrix, glm::mat4 projection_matrix, glm::vec3 point_light_pos,
+                glm::vec3 point_light_color, float point_ambient_str, glm::vec3 point_ambient_color,
+                float point_spec_str, float point_spec_phong, float point_intensity, glm::vec3 dir_direction,
+                glm::vec3 dir_light_color, float dir_ambient_str, glm::vec3 dir_ambient_color,
+                float dir_spec_str, float dir_spec_phong, float dir_intensity, glm::vec3 camera_pos);
 
         private:
             bool KEY_W;

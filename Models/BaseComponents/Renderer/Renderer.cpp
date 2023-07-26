@@ -137,8 +137,10 @@ void Renderer::LoadTexture(string Tex_Path)
 }
 
 void Renderer::Draw(glm::mat4 transform_matrix, glm::mat4 view_matrix, glm::mat4 projection_matrix,
-    glm::vec3 light_pos, glm::vec3 light_color, float ambient_str, glm::vec3 ambient_color,
-    glm::vec3 camera_pos, float spec_str, float spec_phong)
+    glm::vec3 point_light_pos, glm::vec3 point_light_color, float point_ambient_str,
+    glm::vec3 point_ambient_color, float point_spec_str, float point_spec_phong, float point_intensity, 
+    glm::vec3 dir_direction, glm::vec3 dir_light_color, float dir_ambient_str, glm::vec3 dir_ambient_color,
+    float dir_spec_str, float dir_spec_phong, float dir_intensity, glm::vec3 camera_pos)
 {
     glUseProgram(this->shaderProgram);
 
@@ -155,26 +157,50 @@ void Renderer::Draw(glm::mat4 transform_matrix, glm::mat4 view_matrix, glm::mat4
     glBindTexture(GL_TEXTURE_2D, this->texture);
     glUniform1i(tex0Address, 0);
 
-    GLuint lightAddress = glGetUniformLocation(this->shaderProgram, "lightPos");
-    glUniform3fv(lightAddress, 1, glm::value_ptr(light_pos));
+    GLuint pointLightAddress = glGetUniformLocation(this->shaderProgram, "pointLightPos");
+    glUniform3fv(pointLightAddress, 1, glm::value_ptr(point_light_pos));
 
-    GLuint lightColorAddress = glGetUniformLocation(this->shaderProgram, "lightColor");
-    glUniform3fv(lightColorAddress, 1, glm::value_ptr(light_color));
+    GLuint pointLightColorAddress = glGetUniformLocation(this->shaderProgram, "pointLightColor");
+    glUniform3fv(pointLightColorAddress, 1, glm::value_ptr(point_light_color));
 
-    GLuint ambientStrAddress = glGetUniformLocation(this->shaderProgram, "ambientStr");
-    glUniform1f(ambientStrAddress, ambient_str);
+    GLuint pointAmbientStrAddress = glGetUniformLocation(this->shaderProgram, "pointAmbientStr");
+    glUniform1f(pointAmbientStrAddress, point_ambient_str);
 
-    GLuint ambientColorAddress = glGetUniformLocation(this->shaderProgram, "ambientColor");
-    glUniform3fv(ambientColorAddress, 1, glm::value_ptr(ambient_color));
+    GLuint pointAmbientColorAddress = glGetUniformLocation(this->shaderProgram, "pointAmbientColor");
+    glUniform3fv(pointAmbientColorAddress, 1, glm::value_ptr(point_ambient_color));
+
+    GLuint pointSpecStrAddress = glGetUniformLocation(this->shaderProgram, "pointSpecStr");
+    glUniform1f(pointSpecStrAddress, point_spec_str);
+
+    GLuint pointSpecPhongAddress = glGetUniformLocation(this->shaderProgram, "pointSpecPhong");
+    glUniform1f(pointSpecPhongAddress, point_spec_phong);
+
+    GLuint pointIntensityAddress = glGetUniformLocation(this->shaderProgram, "pointIntensity");
+    glUniform1f(pointIntensityAddress, point_intensity);
+
+    GLuint dirLightAddress = glGetUniformLocation(this->shaderProgram, "direction");
+    glUniform3fv(dirLightAddress, 1, glm::value_ptr(dir_direction));
+
+    GLuint dirLightColorAddress = glGetUniformLocation(this->shaderProgram, "dirLightColor");
+    glUniform3fv(dirLightColorAddress, 1, glm::value_ptr(dir_light_color));
+
+    GLuint dirAmbientStrAddress = glGetUniformLocation(this->shaderProgram, "dirAmbientStr");
+    glUniform1f(dirAmbientStrAddress, dir_ambient_str);
+
+    GLuint dirAmbientColorAddress = glGetUniformLocation(this->shaderProgram, "dirAmbientColor");
+    glUniform3fv(dirAmbientColorAddress, 1, glm::value_ptr(dir_ambient_color));
+
+    GLuint dirSpecStrAddress = glGetUniformLocation(this->shaderProgram, "dirSpecStr");
+    glUniform1f(dirSpecStrAddress, dir_spec_str);
+
+    GLuint dirSpecPhongAddress = glGetUniformLocation(this->shaderProgram, "dirSpecPhong");
+    glUniform1f(dirSpecPhongAddress, dir_spec_phong);
+
+    GLuint intensityAddress = glGetUniformLocation(this->shaderProgram, "dirIntensity");
+    glUniform1f(intensityAddress, dir_intensity);
 
     GLuint cameraPosAddress = glGetUniformLocation(this->shaderProgram, "cameraPos");
     glUniform3fv(cameraPosAddress, 1, glm::value_ptr(camera_pos));
-
-    GLuint specStrAddress = glGetUniformLocation(this->shaderProgram, "specStr");
-    glUniform1f(specStrAddress, spec_str);
-
-    GLuint specPhongAddress = glGetUniformLocation(this->shaderProgram, "specPhong");
-    glUniform1f(specPhongAddress, spec_phong);
 
     glBindVertexArray(this->VAO);
 

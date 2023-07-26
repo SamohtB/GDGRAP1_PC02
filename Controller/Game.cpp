@@ -29,9 +29,9 @@ void Game::CreateLights()
         "Shaders/light.vert",           //Vertex Shader
         "Shaders/light.frag",           //Frag Shader
         "3D/potion.png",                //Texture
-        glm::vec3(0.f, 0.f, 10.f),     //Initial Pos
-        glm::vec3(1.f, 0.4f, 0.1f),       //Light Color
-        glm::vec3(1.f, 0.4f, 0.1f),       //Ambient Color
+        glm::vec3(0.f, 0.f, -10.f),     //Initial Pos
+        glm::vec3(1.f, 0.4f, 0.1f),     //Light Color
+        glm::vec3(1.f, 0.4f, 0.1f),     //Ambient Color
         0.2f,                           //Ambient Str
         0.5f,                           //Spec Str
         16                              //Spec Phong
@@ -45,13 +45,15 @@ void Game::CreateLights()
         "Shaders/light.vert",           //Vertex Shader
         "Shaders/light.frag",           //Frag Shader
         "3D/potion.png",                //Texture
-        glm::vec3(-10.f, 3.f, 0.f),     //Initial Pos
-        glm::vec3(0.f, 0.5f, 0.5f),     //Light Color
-        glm::vec3(0.f, 0.5f, 0.5f),     //Ambient Color
+        glm::vec3(0.f, 0.f, 0.f),     //Initial Pos
+        glm::vec3(1.f, 0.0f, 0.0f),     //Light Color
+        glm::vec3(1.f, 0.0f, 0.0f),     //Ambient Color
         0.2f,                           //Ambient Str
         0.5f,                           //Spec Str
         16                              //Spec Phong
     );
+
+    this->directionalLight->SetDirection(glm::vec3(4.0f, 11.0f, -3.0f));
 }
 
 void Game::Initialize()
@@ -142,12 +144,22 @@ void Game::ProcessInput()
     {
         this->pointLight->ProcessInput(this->gameWindow);
     }
+
+    if (this->isPerspective)
+    {
+        this->perpectiveCamera->ProcessInput(this->gameWindow);
+    }
+
+    this->directionalLight->ProcessInput(this->gameWindow);
+    this->pointLight->ProcessInput2(this->gameWindow);
 }
 
 void Game::Update(float tDeltaTime)
 {
     this->centerObject->GameObject::Update(tDeltaTime);
     this->pointLight->Update(tDeltaTime);
+    this->directionalLight->Update(tDeltaTime);
+    this->perpectiveCamera->Update(tDeltaTime);
 }
 
 void Game::Render()
@@ -169,16 +181,28 @@ void Game::Render()
         camera_pos = this->orthographicCamera->GetPosition();
     }
     
-    glm::vec3 light_pos = this->pointLight->GetPosition();
-    glm::vec3 light_color = this->pointLight->GetLightColor();
-    glm::vec3 ambient_color = this->pointLight->GetAmbientColor();
+    glm::vec3 point_light_pos = this->pointLight->GetPosition();
+    glm::vec3 point_light_color = this->pointLight->GetLightColor(this->isCenter);
+    glm::vec3 point_ambient_color = this->pointLight->GetAmbientColor(this->isCenter);
 
-    float ambient_str = this->pointLight->GetAmbientStr();
-    float spec_str = this->pointLight->GetSpecStr();
-    float spec_phong = this->pointLight->GetSpecPhong();
+    float point_ambient_str = this->pointLight->GetAmbientStr();
+    float point_spec_str = this->pointLight->GetSpecStr();
+    float point_spec_phong = this->pointLight->GetSpecPhong();
+    float point_intensity = this->pointLight->GetIntensity();
 
-    this->centerObject->Draw(view_matrix, projection_matrix, light_pos, light_color,
-        ambient_str, ambient_color, spec_str, spec_phong, camera_pos);
+    glm::vec3 dir_direction = this->directionalLight->GetPosition();
+    glm::vec3 dir_light_color = this->directionalLight->GetLightColor(this->isCenter);
+    glm::vec3 dir_ambient_color = this->directionalLight->GetAmbientColor(this->isCenter);
 
-    this->pointLight->Draw(view_matrix, projection_matrix, light_color);
+    float dir_ambient_str = this->directionalLight->GetAmbientStr();
+    float dir_spec_str = this->directionalLight->GetSpecStr();
+    float dir_spec_phong = this->directionalLight->GetSpecPhong();
+    float dir_intensity = this->directionalLight->GetIntensity();
+
+    this->centerObject->Draw(view_matrix, projection_matrix, point_light_pos, point_light_color,
+        point_ambient_str, point_ambient_color, point_spec_str, point_spec_phong, point_intensity,
+        dir_direction, dir_light_color, dir_ambient_str, dir_ambient_color, dir_spec_str, 
+        dir_spec_phong, dir_intensity, camera_pos);
+
+    this->pointLight->Draw(view_matrix, projection_matrix, point_light_color);
 }

@@ -13,6 +13,8 @@ Point::Point(string Mesh_Path, string Vert_Path, string Frag_Path, string Tex_pa
     this->KEY_D = false;
     this->KEY_E = false;
     this->KEY_Q = false;
+    this->KEY_UP = false;
+    this->KEY_DOWN = false;
 }
 
 void Point::Draw(glm::mat4 view_matrix, glm::mat4 projection_matrix, glm::vec3 lightColor)
@@ -33,43 +35,62 @@ void Point::ProcessInput(GLFWwindow* gameWindow)
     }
 }
 
+void Point::ProcessInput2(GLFWwindow* gameWindow)
+{
+    for (const auto& entry : keyMap2)
+    {
+        int key = entry.first;
+        bool* keyStatus = entry.second;
+        int status = glfwGetKey(gameWindow, key);
+        *keyStatus = (status == GLFW_PRESS);
+    }
+}
+
 void Point::Update(float tDeltaTime)
 {
-    float x, y, z;
-
-    if (this->KEY_A)
+    if (KEY_W)
     {
-        
+        glm::mat4 rotation = glm::rotate(glm::mat4(1.0f), tDeltaTime * orbitSpeed, glm::vec3(1.0f, 0.0f, 0.0f));
+        this->SetPosition(glm::vec3(rotation * glm::vec4(this->GetPosition(), 1.0f)));
     }
 
-    if (this->KEY_D)
+    if (KEY_S)
     {
-        
+        glm::mat4 rotation = glm::rotate(glm::mat4(1.0f), -tDeltaTime * orbitSpeed, glm::vec3(1.0f, 0.0f, 0.0f));
+        this->SetPosition(glm::vec3(rotation * glm::vec4(this->GetPosition(), 1.0f)));
     }
 
-    if (this->KEY_W)
+    if (KEY_A)
     {
-        this->Rotate(RotationAxis::PITCH, this->rotationSpeed * tDeltaTime * -1);
+        glm::mat4 rotation = glm::rotate(glm::mat4(1.0f), tDeltaTime * orbitSpeed, glm::vec3(0.0f, 1.0f, 0.0f));
+        this->SetPosition(glm::vec3(rotation * glm::vec4(this->GetPosition(), 1.0f)));
     }
-    if (this->KEY_S)
-    {
-        this->Rotate(RotationAxis::PITCH, this->rotationSpeed * tDeltaTime);
-    }
-    if (this->KEY_Q)
-    {
-        this->Rotate(RotationAxis::ROLL, this->rotationSpeed * tDeltaTime);
-    }
-    if (this->KEY_E)
-    {
-        this->Rotate(RotationAxis::ROLL, this->rotationSpeed * tDeltaTime * -1);
-    }
-    float x = radius * sin(angleX) * cos(angleY);
-    float y = radius * sin(angleX) * sin(angleY);
-    float z = radius * cos(angleX);
 
-    glm::vec3 prevPos = this->GetPosition();
+    if (KEY_D)
+    {
+        glm::mat4 rotation = glm::rotate(glm::mat4(1.0f), -tDeltaTime * orbitSpeed, glm::vec3(0.0f, 1.0f, 0.0f));
+        this->SetPosition(glm::vec3(rotation * glm::vec4(this->GetPosition(), 1.0f)));
+    }
 
-    glm::vec3 newPos = glm::vec3(x + prevPos.x, y + prevPos.y, z + prevPos.z);
+    if (KEY_Q)
+    {
+        glm::mat4 rotation = glm::rotate(glm::mat4(1.0f), tDeltaTime * orbitSpeed, glm::vec3(0.0f, 0.0f, 1.0f));
+        this->SetPosition(glm::vec3(rotation * glm::vec4(this->GetPosition(), 1.0f)));
+    }
 
-    this->SetPosition(newPos);
+    if (KEY_E)
+    {
+        glm::mat4 rotation = glm::rotate(glm::mat4(1.0f), -tDeltaTime * orbitSpeed, glm::vec3(0.0f, 0.0f, 1.0f));
+        this->SetPosition(glm::vec3(rotation * glm::vec4(this->GetPosition(), 1.0f)));
+    }
+
+    if (KEY_UP)
+    {
+        this->IncreaseIntensity(this->intensitySpeed * tDeltaTime);
+    }
+
+    if (KEY_DOWN)
+    {
+        this->IncreaseIntensity(this->intensitySpeed * -tDeltaTime);
+    }
 }

@@ -19,12 +19,14 @@ namespace models
 		void SetAmbientStr(float ambientStr) { this->ambientStr = ambientStr; }
 		void SetSpecStr(float specStr) { this->specStr = specStr; }
 		void SetSpecPhong(float specPhong) { this->specPhong = specPhong; }
+		void IncreaseIntensity(float intensity) { this->intensity += intensity; }
 
-		glm::vec3 GetLightColor() { return this->lightColor; }
-		glm::vec3 GetAmbientColor() { return this->ambientColor; }
+		virtual glm::vec3 GetLightColor(bool isCenter);
+		virtual glm::vec3 GetAmbientColor(bool isCenter);
 		float GetAmbientStr() { return this->ambientStr; }
 		float GetSpecStr() { return this->specStr; }
 		float GetSpecPhong() { return this->specPhong; }
+		float GetIntensity() { return this->intensity; }
 
 	private:
 		glm::vec3 lightColor;
@@ -32,6 +34,7 @@ namespace models
 		float ambientStr;
 		float specStr;
 		float specPhong;
+		float intensity;
 	};
 }
 
