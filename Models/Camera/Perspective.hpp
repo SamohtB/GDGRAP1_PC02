@@ -21,10 +21,22 @@ namespace camera
 		void ProcessInput(GLFWwindow* gameWindow);
 		void Update(float tDeltaTime);
 
+		void UpdateCameraPos(float tDeltaTime);
+
 	private:
 		glm::mat4 projection_matrix;
 		float FOV;
 		float aspectRatio;
+		bool BUTTON_1;
+		bool isPressed;
+		double lastMousePosX;
+		double lastMousePosY;
+		double mousePosX;
+		double mousePosY;
+		float theta;
+		float phi;
+		const float sensitivityX = 0.01f;
+		const float sensitivityY = 0.01f;
 	};
 }
 
