@@ -42,7 +42,7 @@ void Game::CreateLights()
     this->pointLight->Rotate(RotationAxis::YAW, 90.f);
 
     this->directionalLight = new Directional(
-        "3D/potion.obj",                //Mesh 
+        "3D/target.obj",                //Mesh 
         "Shaders/light.vert",           //Vertex Shader
         "Shaders/light.frag",           //Frag Shader
         "3D/potion.png",                //Texture
